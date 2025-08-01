@@ -1,232 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-    crossorigin="anonymous"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      padding-bottom: 50px;
-      color: #333;
-    }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+        }
 
-    .main-header {
-      background-color: #333;
-      color: white;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
+        .sidebar {
+            width: 250px;
+            background-color: #1a2639;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding: 20px;
+            overflow-y: auto;
+        }
 
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-    }
+        .sidebar-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: color 0.3s, text-decoration 0.3s;
-    }
+        .sidebar-nav {
+            list-style: none;
+        }
 
-    .nav-links a:hover {
-      color: #ffd700;
-      text-decoration: underline;
-    }
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
 
-    .categories {
-      max-width: 600px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
+        .sidebar-nav a {
+            color: #d1d5db;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-    .categories h2 {
-      margin-bottom: 25px;
-      color: #222;
-      font-weight: 700;
-      font-size: 1.8rem;
-      text-align: center;
-    }
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: #3b82f6;
+            color: white;
+        }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
+        .sidebar-nav i {
+            margin-right: 10px;
+        }
 
-    label {
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #444;
-    }
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            flex-grow: 1;
+        }
 
-    input[type="text"] {
-      padding: 12px 15px;
-      font-size: 1rem;
-      border: 2px solid #ddd;
-      border-radius: 6px;
-      transition: border-color 0.3s;
-    }
+        .header {
+            background-color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-    input[type="text"]:focus {
-      border-color: #333;
-      outline: none;
-    }
+        .header h1 {
+            font-size: 1.8rem;
+            color: #1a2639;
+        }
 
-    button {
-      padding: 12px 20px;
-      font-size: 1rem;
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.3s;
-    }
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
 
-    button:hover {
-      background-color: #555;
-    }
+        .header nav a {
+            color: #1a2639;
+            text-decoration: none;
+            font-weight: 500;
+        }
 
-    .alert {
-      max-width: 600px;
-      margin: 30px auto;
-      padding: 15px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      text-align: center;
-    }
+        .header nav a:hover {
+            color: #3b82f6;
+        }
 
-    .error {
-      color: red;
-      margin-left: 10px;
-      font-size: 0.9em;
-    }
-  </style>
-</head>
+        .categories-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 30px;
+        }
 
-<body>
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
+        .category-item:hover {
+            background-color: #f1f5f9;
+        }
 
-  <!-- @if($message = Session::get('email'))
-        <div class="alert alert-success" role="alert">
-            <strong>{{ $message }}</strong>
-        </div>
-    @endif -->
+        .category-item:last-child {
+            border-bottom: none;
+        }
 
+        .delete-button {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
 
-  <header class="main-header">
-    <h1> <a href="{{ route('admin-dashboard') }}">Quiz Questions</a></h1>
-    <nav>
+        .delete-button:hover {
+            color: #b91c1c;
+        }
 
+        .mcq-form-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-      <ul class="nav-links">
-        <li><a href="{{ route('categories') }}">Categories</a></li>
-        <li><a href="#">Quiz</a></li>
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-        @if(Session::get('email'))
-      <li><a href="#">Logout</a></li>
-    @endif
-      </ul>
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
 
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
 
-    </nav>
-  </header>
-  @if($message = Session::get('success'))
-    <div class="alert alert-success" role="alert">
-    <strong>{{ $message }}</strong>
-    </div>
-  @endif
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: #3b82f6;
+            outline: none;
+        }
 
-  <div class="categories">
-    <h2>Add Categories</h2>
-    <form action="{{ route('categories-add') }}" method="post">
-      @csrf
-      <span class="error" id="categoriesError"></span>
-      <label for="addCategories">Add Categories</label>
-      <input type="text" name="name" id="nameCategories">
-      <button type="submit" id="btnCayegoryAdded">Add Category</button>
-    </form>
-  </div>
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
 
+        .submit-btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-  <!-- Added Categories fetch  -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      // Ckeck from DB , searching input is alreday in db or not
-      $('#nameCategories').keyup(function () {
-        var searchValue = $('#nameCategories').val();
+        .submit-btn:hover {
+            background-color: #2563eb;
+        }
 
-        $.ajax({
-          url: "{{ route('search-categories') }}",
-          method: "POST",
-          data: {
-            searchValue: searchValue,
-            _token: "{{ csrf_token() }}"
-          },
-          success: function (response) {
-            if (response.status === 1) {
-              $('#btnCayegoryAdded').hide();
-              $('#categoriesError').text('This Category is alreay stored or added');
-            } else {
-              console.log('not match');
+        .alert {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 200px;
             }
+            .main-content {
+                margin-left: 200px;
+            }
+        }
 
-          },
-          error: function (error) {
-            console.error('Error:', error);
-          }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">Admin Dashboard</div>
+        <ul class="sidebar-nav">
+            <li><a href="{{ route('admin-dashboard') }}" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="{{ route('categories') }}"><i class="fas fa-list"></i> Categories</a></li>
+            <li><a href="{{ route('listOfAllUser') }}"><i class="fas fa-users"></i> Top Candidates</a></li>
+            <!-- @if(Session::get('email')) -->
+            <li><a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <!-- @endif -->
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+         <!-- Success Alert -->
+    @if($message = Session::get('success'))
+    <div class="alert alert-success" role="alert" id="success-alert">
+        <strong>{{ $message }}</strong>
+    </div>
+    @endif
+        <!-- Categories Section -->
+        <section class="categories-container">
+            <h2>Add Categories</h2>
+            <form action="{{ route('categories-add') }}" method="post" class="form-group">
+                @csrf
+                <span class="error" id="categoriesError"></span>
+                <label for="nameCategories">Category Name</label>
+                <input type="text" name="name" id="nameCategories" class="form-control" required>
+                <button type="submit" id="btnCayegoryAdded" class="submit-btn mt-3">Add Category</button>
+            </form>
+
+            <!-- Category List -->
+            <!-- <h3 class="mt-4">Existing Categories</h3>
+            <div id="category-list"> -->
+                <!-- Categories will be populated dynamically -->
+                <!-- <div class="category-item">
+                    <span>Sample Category</span>
+                    <button class="delete-button"><i class="fas fa-trash"></i></button>
+                </div>
+            </div> -->
+        </section>
+
+        <!-- MCQ Form Section -->
+        <section class="mcq-form-container" style="display: none;">
+            <h2>Add MCQ Question</h2>
+            <form action="{{ route('add-mcq') }}" method="post" class="form-group">
+                <!-- @csrf -->
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select name="category" id="category" required>
+                        <option value="">Select Category</option>
+                        <!-- Categories populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="question">Question</label>
+                    <textarea name="question" id="question" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="option1">Option 1</label>
+                    <input type="text" name="option1" id="option1" required>
+                </div>
+                <div class="form-group">
+                    <label for="option2">Option 2</label>
+                    <input type="text" name="option2" id="option2" required>
+                </div>
+                <div class="form-group">
+                    <label for="option3">Option 3</label>
+                    <input type="text" name="option3" id="option3" required>
+                </div>
+                <div class="form-group">
+                    <label for="option4">Option 4</label>
+                    <input type="text" name="option4" id="option4" required>
+                </div>
+                <div class="form-group">
+                    <label for="correct_option">Correct Option</label>
+                    <select name="correct_option" id="correct_option" required>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                        <option value="4">Option 4</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Add Question</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Fade out success alert
+            setTimeout(function () {
+                $('#success-alert').fadeOut('slow');
+            }, 2000);
+
+            // Check if category exists
+            $('#nameCategories').keyup(function () {
+                var searchValue = $('#nameCategories').val();
+
+                $.ajax({
+                    url: "{{ route('search-categories') }}",
+                    method: "POST",
+                    data: {
+                        searchValue: searchValue,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        if (response.status === 1) {
+                            $('#btnCayegoryAdded').hide();
+                            $('#categoriesError').text('This Category is already stored or added');
+                        } else {
+                            $('#btnCayegoryAdded').show();
+                            $('#categoriesError').text('');
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
         });
-
-
-      });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    })
-  </script>
-
+    </script>
 </body>
-
 </html>

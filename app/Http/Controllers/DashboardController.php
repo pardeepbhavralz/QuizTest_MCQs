@@ -22,6 +22,7 @@ class DashboardController extends Controller
     }
     public function categoriesAdd(Request $request)
     {
+       
         // Validate input
         $validation = $request->validate([
             'name' => 'required',
